@@ -1,0 +1,26 @@
+.pagination{
+    border: 1px solid #e5e5e5;
+    padding: 8px;
+    border-radius: 4px;
+}
+span.page_selected{
+    background-color: #444;
+    color: #fff;
+}
+a.page, a.dots, span.page_selected, a.next, a.prev{
+    padding:5px;
+    margin: 2px;
+    text-align: center;
+    letter-spacing: 0.7px;
+    text-decoration: none;
+}
+
+a.next, a.prev, a.page{
+    background-color: #f3f1f1;
+    text-decoration: none;
+    color: #333;
+}
+a.next:hover, a.prev:hover, a.page:hover{
+    background-color: #ebdfdf;
+    color: #333;
+}
