@@ -1,13 +1,13 @@
-# ads-manager
+# news_manager-manager
 
-Bu proje ads-manager projesinin bir yansısıdır. Bu döküman ise projeye katılacak çalışma arkadaşlarımızın aşağıdaki yönerge ışığında projeyi kurması, geliştirmesi, yedeklemesi ve yansıyı yönetmesine ilişkin bilgileri içerir.
+Bu proje news_manager-manager projesinin bir yansısıdır. Bu döküman ise projeye katılacak çalışma arkadaşlarımızın aşağıdaki yönerge ışığında projeyi kurması, geliştirmesi, yedeklemesi ve yansıyı yönetmesine ilişkin bilgileri içerir.
 
 ## 1. Edinme
 
 Projeyi edinmek için aşağıdaki komutu terminal'den çalıştırın, böylelikle proje varlıklarının bilgisayarınıza inmesi mümkün olacaktır.
 
 ```bash
-git clone https://github.com/aliyilmaz/ads-manager.git
+git clone https://github.com/aliyilmaz/news_manager-manager.git
 ```
 
 ## 2. Ayarlar
@@ -17,7 +17,7 @@ Aşağıda belirtilen ayarlar yapılarak proje, kuruluma hazır hale getirilir.
 Eğer Apple Macinizde veya bir Linux dağıtımında çalışıyorsanız, aşağıdaki komut yardımıyla proje dizinine yazma izni uygulamanız gerekmektedir.
 
 ```bash
-sudo chmod -R 777 ads-manager
+sudo chmod -R 777 news_manager-manager
 ```
 
 **Bilgi:**
@@ -25,7 +25,7 @@ Bu komut, sunucu yazılımı türüne göre otomatik oluşturulan .htaccess dosy
 
 ### 2.2 Veritabanı
 
-Proje içeriklerinin tutulacağı veritabanı türü varsayılan olarak mysql olup, sqlite ve sqlsrv veritabanları da tercih edilebilir. Veritabanı adı varsayılan olarak ads'dir. Kurulum adımına geçilmeden önce bu isimde veritabanının daha önce oluşturulmadığına emin olunması gerekmektedir.
+Proje içeriklerinin tutulacağı veritabanı türü varsayılan olarak mysql olup, sqlite ve sqlsrv veritabanları da tercih edilebilir. Veritabanı adı varsayılan olarak news_manager'dir. Kurulum adımına geçilmeden önce bu isimde veritabanının daha önce oluşturulmadığına emin olunması gerekmektedir.
 
 ### 2.3 Güvenlik
 
