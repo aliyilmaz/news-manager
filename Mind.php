@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.0
+ * @version    Release: 5.3.1
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -660,6 +660,7 @@ class Mind extends PDO
      */
     public function tableClear($tblName){
 
+        $status = false;
         $tblNames = array();
 
         if(is_array($tblName)){
@@ -685,18 +686,12 @@ class Mind extends PDO
                 break;
             }
             
-            try{
-                if($this->query($sql)){
-                    return true;
-                } else {
-                    return false;
-                }
-            } catch (Exception $e){
-                return false;
-            }
+            if($this->query($sql)){
+                $status = true;
+            } 
 
         }
-        return true;
+        return $status;
     }
 
     /**

@@ -8,16 +8,12 @@ $values['status'] = 1;
 
 $rule = [
    'title'        => 'required',
-   'url'          => 'required',
    'position'     => 'required'
 ];
 
 $message = [
    'title'=>[
       'required'=>'The title must be specified.'
-   ],
-   'url'=>[
-      'required'=>'The url must be specified.'
    ],
    'position'=>[
       'required'=>'The position must be specified.'
@@ -27,13 +23,15 @@ $message = [
 if(isset($this->post['title'])){
    
    $this->post['title'] = (!empty($this->post['title'])) ? $this->post['title'] : '';
-   $this->post['url'] = (!empty($this->post['url'])) ? $this->post['url'] : '';
    $this->post['position'] = (!empty($this->post['position'])) ? $this->post['position'] : '';
+   $this->post['tag'] = (!empty($this->post['tag'])) ? $this->post['tag'] : '';
+   $this->post['description'] = (!empty($this->post['description'])) ? $this->post['description'] : '';
    
    if($this->validate($rule, $this->post, $message)){
       $values['title'] = $this->post['title'];
-      $values['url'] = $this->post['url'];
       $values['position'] = $this->permalink($this->post['position']);
+      $values['tag'] = $this->post['tag'];
+      $values['description'] = $this->post['description'];
    }
 
    if(empty($this->post['image']['name'])){

@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="public/assets/header.css">
     <script src="public/assets/lib/mediainfo.js/mediainfo.min.js"></script>
     <script src="public/assets/lib/mediainfo.js/script.js"></script>
+    <!-- include summernote css/js -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 </head>
 <body>
 <?php $this->addLayer('app/views/panel/header'); ?>
@@ -22,14 +26,18 @@
     <h2>Edit Content</h2>
     <form action="panel/content/edit" method="POST" enctype="multipart/form-data">
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-4">
             <div class="form-group mt-3">
                 <label for="title">Title</label>
                 <input class="form-control" type="text" name="title" placeholder="Title" value="<?=$content['title'];?>">
             </div>
             <div class="form-group mt-3">
-                <label for="url">URL</label>
-                <input class="form-control" type="text" name="url" placeholder="URL" value="<?=$content['url'];?>">
+                <label for="position">Position</label>
+                <input class="form-control" type="text" name="position" placeholder="Position" value="<?=$content['position'];?>">
+            </div>
+            <div class="form-group mt-3">
+                <label for="tag">Tag</label>
+                <input class="form-control" type="text" name="tag" placeholder="Tag" value="<?=$content['tag'];?>">
             </div>
             <div class="form-group mt-3">
                 <label for="image">Image</label>
@@ -39,26 +47,10 @@
             <?php if(!empty($content['image'])){ echo '<img style="max-width:100%;" src="'.$content['image'].'">'; };?>
             </div>
         </div>
-        <div class="col-lg-6">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="form-group mt-3">
-                        <label for="position">Position</label>
-                        <input class="form-control" type="text" name="position" placeholder="Position" value="<?=$content['position'];?>">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group mt-3">
-                        <label for="start_date">Start date</label>
-                        <input class="form-control" type="date" name="start_date" placeholder="Start date" value="<?=$content['start_date'];?>">
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="form-group mt-3">
-                        <label for="end_date">End date</label>
-                        <input class="form-control" type="date" name="end_date" placeholder="End date" value="<?=$content['end_date'];?>">
-                    </div>
-                </div>
+        <div class="col-lg-8">
+            <div class="form-group mt-3">
+                <label for="description">Description</label>
+                <textarea class="form-control" id="description" name="description" placeholder="Description"><?=$content['description']?></textarea>
             </div>
         </div>
         <div>
@@ -109,6 +101,24 @@
         divOutputElement.appendChild(stringToHTML(divOutputHtml));
       }
 
+    });
+
+    $(document).ready(function() {
+        // $('#description').summernote();
+        $('#description').summernote({
+        // placeholder: 'Hello Bootstrap 4',
+            tabsize: 2,
+            height: 300,
+            toolbar: [
+            ['style', ['style']],
+            ['font', ['bold', 'underline', 'clear']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph']],
+            ['table', ['table']],
+            ['insert', ['link', 'picture', 'video']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+            ]
+        });
     });
   </script>
 </body>

@@ -21,6 +21,4 @@ $Mind->route('panel/content/edit:content_id', 'app/views/panel/content/edit');
 $Mind->route('panel/content/status:content_id', 'app/request/panel/content/status');
 $Mind->route('panel/content/remove:content_id', 'app/request/panel/content/remove');
 $Mind->route('panel/content/', 'app/views/panel/content/contents');
-$Mind->route('panel/active_contents', 'app/views/panel/content/active_contents');
-$Mind->route('panel/inactive_contents', 'app/views/panel/content/inactive_contents');
 // $Mind->route('panel/backup', 'app/request/backup');

@@ -71,12 +71,11 @@
             <table class="table" role="table">
                 <thead role="rowgroup">
                 <tr role="row">
+                    <th role="columnheader">Image <input type="checkbox" name="columns[]" value="image"></th>
                     <th role="columnheader">Id <input type="checkbox" name="columns[]" value="id"></th>
                     <th role="columnheader">Position <input type="checkbox" name="columns[]" value="position"></th>
                     <th role="columnheader">Title <input type="checkbox" name="columns[]" value="title"></th>
-                    <th role="columnheader">Image <input type="checkbox" name="columns[]" value="image"></th>
-                    <th role="columnheader">Start Date <input type="checkbox" name="columns[]" value="start_date"></th>
-                    <th role="columnheader">End Date <input type="checkbox" name="columns[]" value="end_date"></th>
+                    <th role="columnheader">Description <input type="checkbox" name="columns[]" value="description"></th>
                     <th role="columnheader">Created At <input type="checkbox" name="columns[]" value="created_at"></th>
                     <th role="columnheader">Updated At <input type="checkbox" name="columns[]" value="updated_at"></th>
                     <th role="columnheader">#</th>
@@ -85,14 +84,11 @@
                 <tbody role="rowgroup">
                 <?php foreach ($contents['data'] as $key => $row) { ?>
                     <tr role="row">
+                        <td role="cell" data-label="image"><a href="<?=$row['image'];?>"><img src="<?=$row['image'];?>" class="img-thumbnail" style="width:40px; height:40px; object-fit: none;"></a></td>
                         <td role="cell" data-label="Id"><?=$row['id'];?></td>
                         <td role="cell" data-label="Position"><?=$row['position'];?></td>
                         <td role="cell" data-label="Title"><?=$row['title'];?></td>
-                        <td role="cell" data-label="Image">
-                            <a href="<?=$row['image'];?>" target="_blank">View banner</a>
-                        </td>
-                        <td role="cell" data-label="Start Date"><?=$row['start_date'];?></td>
-                        <td role="cell" data-label="End Date"><?=$row['end_date'];?></td>
+                        <td role="cell" data-label="Description"><?=(!empty($row['description'])) ? $this->summary(strip_tags(html_entity_decode($row['description'])), 40, '...') : '';?></td>
                         <td role="cell" data-label="Created At"><?=$row['created_at'];?></td>
                         <td role="cell" data-label="Updated At"><?=$row['updated_at'];?></td>
                         <td role="cell" data-label="">

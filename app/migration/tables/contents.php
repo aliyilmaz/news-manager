@@ -2,15 +2,14 @@
 
 $schema = [
     'id:increments',
-    'position',
     'title',
+    'position',
+    'tag',
     // 'size',
     // 'width',
     // 'height',
     'image',
-    'url',
-    'start_date:string@19',
-    'end_date:string@19',
+    'description',
     'status:string@5',
     'created_at:string@19',
     'updated_at:string@19'

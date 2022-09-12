@@ -11,8 +11,6 @@
     <label class="menu-icon" for="menu-btn"><span class="navicon"></span></label>
     <ul class="menu">
         <li><a href="panel/contents" class="btn border-0">Contents</a></li>
-        <li><a href="panel/inactive_contents" class="btn border-0">Inactive contents</a></li>
-        <li><a href="panel/active_contents" class="btn border-0">Active contents</a></li>
         <li><a href="panel/content/add" class="btn border-0">New Content</a></li>
     </ul>
 </header>
