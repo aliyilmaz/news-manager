@@ -13,6 +13,9 @@
     <link rel="stylesheet" href="public/assets/header.css">
     <script src="public/assets/lib/mediainfo.js/mediainfo.min.js"></script>
     <script src="public/assets/lib/mediainfo.js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="" type="image/x-icon">
     
 </head>
@@ -34,7 +37,7 @@
                 </div>
                 <div class="form-group mt-3">
                     <label for="tag">Tag</label>
-                    <input class="form-control" type="text" name="tag" placeholder="Tag">
+                    <input class="form-control" id="tag" type="text" name="tag" placeholder="Tag">
                 </div>
                 <div class="form-group mt-3">
                     <label for="image">Image</label>
@@ -116,6 +119,10 @@
                 ['insert', ['link', 'picture', 'video']],
                 ['view', ['fullscreen', 'codeview', 'help']]
                 ]
+            });
+
+            var tagify = new Tagify(document.querySelector('#tag'), {
+                originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
             });
         });
     </script>

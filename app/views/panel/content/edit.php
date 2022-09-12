@@ -16,6 +16,10 @@
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="" type="image/x-icon">
 </head>
 <body>
 <?php $this->addLayer('app/views/panel/header'); ?>
@@ -37,7 +41,7 @@
             </div>
             <div class="form-group mt-3">
                 <label for="tag">Tag</label>
-                <input class="form-control" type="text" name="tag" placeholder="Tag" value="<?=$content['tag'];?>">
+                <input class="form-control" type="text" id="tag" name="tag" placeholder="Tag" value="<?=$content['tag'];?>">
             </div>
             <div class="form-group mt-3">
                 <label for="image">Image</label>
@@ -118,6 +122,10 @@
             ['insert', ['link', 'picture', 'video']],
             ['view', ['fullscreen', 'codeview', 'help']]
             ]
+        });
+
+        var tagify = new Tagify(document.querySelector('#tag'), {
+            originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
         });
     });
   </script>
