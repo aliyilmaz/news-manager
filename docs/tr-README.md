@@ -1,13 +1,13 @@
-# news_manager-manager
+# news-manager
 
-Bu proje news_manager-manager projesinin bir yansısıdır. Bu döküman ise projeye katılacak çalışma arkadaşlarımızın aşağıdaki yönerge ışığında projeyi kurması, geliştirmesi, yedeklemesi ve yansıyı yönetmesine ilişkin bilgileri içerir.
+Bu proje news-manager projesinin bir yansısıdır. Bu döküman ise projeye katılacak çalışma arkadaşlarımızın aşağıdaki yönerge ışığında projeyi kurması, geliştirmesi, yedeklemesi ve yansıyı yönetmesine ilişkin bilgileri içerir.
 
 ## 1. Edinme
 
 Projeyi edinmek için aşağıdaki komutu terminal'den çalıştırın, böylelikle proje varlıklarının bilgisayarınıza inmesi mümkün olacaktır.
 
 ```bash
-git clone https://github.com/aliyilmaz/news_manager-manager.git
+git clone https://github.com/aliyilmaz/news-manager.git
 ```
 
 ## 2. Ayarlar
@@ -17,7 +17,7 @@ Aşağıda belirtilen ayarlar yapılarak proje, kuruluma hazır hale getirilir.
 Eğer Apple Macinizde veya bir Linux dağıtımında çalışıyorsanız, aşağıdaki komut yardımıyla proje dizinine yazma izni uygulamanız gerekmektedir.
 
 ```bash
-sudo chmod -R 777 news_manager-manager
+sudo chmod -R 777 news-manager
 ```
 
 **Bilgi:**
