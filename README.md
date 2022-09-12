@@ -1,4 +1,4 @@
-# ads-manager
+# news-manager
 
 This project is a mirror of the news-manager project. This document, on the other hand, contains information about the establishment, development, backup and management of the project by our colleagues who will participate in the project in the light of the following directive.
 
