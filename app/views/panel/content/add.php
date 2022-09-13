@@ -6,21 +6,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>New Content | News Manager</title>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+    <!-- jquery -->
+    <script src="public/assets/lib/jquery-3.6.1.min.js"></script>
+    
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="public/assets/lib/bootstrap-5.2.0/css/bootstrap.min.css" />
+    <script src="public/assets/lib/bootstrap-5.2.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="public/assets/lib/bootstrap-icons-1.9.1/bootstrap-icons.css">
+    
     <link rel="stylesheet" href="public/assets/header.css">
+    
+    <!-- mediainfo -->
     <script src="public/assets/lib/mediainfo.js/mediainfo.min.js"></script>
     <script src="public/assets/lib/mediainfo.js/script.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.polyfills.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/@yaireo/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
-    <link rel="shortcut icon" href="" type="image/x-icon">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.css" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.20/summernote-bs5.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+
+    <!-- tagify -->
+    <script src="public/assets/lib/tagify/dist/tagify.min.js"></script>
+    <script src="public/assets/lib/tagify/dist/tagify.polyfills.min.js"></script>
+    <link href="public/assets/lib/tagify/dist/tagify.css" rel="stylesheet" type="text/css" />
+    
+    <!-- summernote -->
+    <link rel="stylesheet" href="public/assets/lib/summernote-0.8.18/summernote-lite.min.css" />
+    <script src="public/assets/lib/summernote-0.8.18/summernote-lite.min.js"></script>
+
+    <link rel="shortcut icon" href="data:;base64,iVBORw0KGgo=" type="image/x-icon">
     
 </head>
 <body>
@@ -128,6 +138,7 @@
                 originalInputValueFormat: valuesArr => valuesArr.map(item => item.value).join(',')
             });
         });
+        
     </script>
     
 </body>
