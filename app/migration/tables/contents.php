@@ -5,6 +5,7 @@ $schema = [
     'title',
     'position',
     'tag',
+    'slug',
     // 'size',
     // 'width',
     // 'height',

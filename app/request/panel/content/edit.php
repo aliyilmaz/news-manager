@@ -30,6 +30,7 @@ if(isset($this->post['title'])){
    if($this->validate($rule, $this->post, $message)){
       $values['title'] = $this->post['title'];
       $values['position'] = $this->permalink($this->post['position']);
+      $values['slug'] = $this->permalink($this->post['title']);
       $values['tag'] = $this->post['tag'];
       $values['description'] = $this->post['description'];
    }
@@ -59,5 +60,4 @@ if(isset($this->post['title'])){
    if(empty($this->errors)){
       $this->update('contents', $values, $content['id'], 'id');
    }
-   $this->addLayer('app/middleware/lifetime/content');
 }

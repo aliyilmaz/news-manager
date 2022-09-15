@@ -1,6 +1,5 @@
 <?php
 
-$this->addLayer('app/middleware/lifetime/content');
 if(isset($this->post['content_id'])){
     $content = $this->theodore('contents', ['id'=>$this->post['content_id']]);
     if(!empty($content)){
