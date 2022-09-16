@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.1
+ * @version    Release: 5.3.2
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -320,38 +320,31 @@ class Mind extends PDO
      */
     public function dbCreate($dbname){
 
-        $dbnames = array();
         $dbnames = (is_array($dbname)) ? $dbname : [$dbname];
 
-        try{
-            foreach ( $dbnames as $dbname ) {
+        foreach ( $dbnames as $dbname ) {
 
-                switch ($this->db['drive']) {
-                    case 'mysql':
-                        $sql = "CREATE DATABASE";
-                        $sql .= " ".$dbname." DEFAULT CHARSET=".$this->db['charset'];
-                        if(!$this->query($sql)){ return false; }
-                    break;
-                    case 'sqlsrv':
-                        $sql = "CREATE DATABASE";
-                        $sql .= " ".$dbname;
-                        if(!$this->query($sql)){ return false; }
-                    case 'sqlite':
-                        if(!file_exists($dbname) AND $dbname !== $this->db['dbname']){
-                            $this->dbConnect(['db'=>['dbname'=>$dbname]]);
-                        }
-                    break;
-                }
-                if($dbname === $this->db['dbname']){ 
-                    $this->dbConnect(['db'=>['dbname'=>$dbname]]); 
-                }
-
+            switch ($this->db['drive']) {
+                case 'mysql':
+                    $sql = "CREATE DATABASE";
+                    $sql .= " ".$dbname." DEFAULT CHARSET=".$this->db['charset'];
+                    if(!$this->query($sql)){ return false; }
+                break;
+                case 'sqlsrv':
+                    $sql = "CREATE DATABASE";
+                    $sql .= " ".$dbname;
+                    if(!$this->query($sql)){ return false; }
+                case 'sqlite':
+                    if(!file_exists($dbname) AND $dbname !== $this->db['dbname']){
+                        $this->dbConnect(['db'=>['dbname'=>$dbname]]);
+                    }
+                break;
             }
-            
-        }catch (Exception $e){
-            return false;
-        }
+            if($dbname === $this->db['dbname']){ 
+                $this->dbConnect(['db'=>['dbname'=>$dbname]]); 
+            }
 
+        }
         return true;
     }
 
@@ -417,11 +410,7 @@ class Mind extends PDO
                 $sql .= "\t ".$tblName."\n";
                 $sql .= implode(",\n\t", $this->columnSqlMaker($scheme, 'columnCreate'));
 
-                if(!$this->query($sql)){
-                    return false;
-                } else {
-                    return true;
-                }
+                return (!$this->query($sql)) ? false : true;
 
             }catch (Exception $e){
                 return false;
@@ -439,46 +428,28 @@ class Mind extends PDO
      */
     public function dbDelete($dbname){
 
-        $dbnames = array();
+        $dbnames = (is_array($dbname)) ? $dbname : [$dbname];
 
-        if(is_array($dbname)){
-            foreach ($dbname as $key => $value) {
-                $dbnames[] = $value;
-            }
-        } else {
-            $dbnames[] = $dbname;
-        }
         foreach ($dbnames as $dbname) {
 
             if(!$this->is_db($dbname)){
-
                 return false;
-
             }
 
             switch ($this->db['drive']) {
                 case 'mysql':
-                    try{
-
-                        $sql = "DROP DATABASE";
-                        $sql .= " ".$dbname;
-        
-                        $query = $this->query($sql);
-                        if(!$query){
-                            return false;
-                        }
-                    }catch (Exception $e){
+                    $sql = "DROP DATABASE";
+                    $sql .= " ".$dbname;
+    
+                    $query = $this->query($sql);
+                    if(!$query){
                         return false;
                     }
                 break;
                 case 'sqlsrv':
-                    try{
-                        $query = $this->query('ALTER DATABASE '.$dbname.' SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE '.$dbname.';');
+                    $query = $this->query('ALTER DATABASE '.$dbname.' SET SINGLE_USER WITH ROLLBACK IMMEDIATE; DROP DATABASE '.$dbname.';');
                         
-                        if(!$query){
-                            return false;
-                        }
-                    }catch (Exception $e){
+                    if(!$query){
                         return false;
                     }
                 break;
@@ -505,25 +476,13 @@ class Mind extends PDO
      */
     public function tableDelete($tblName){
 
-        $tblNames = array();
+        $tblNames = (is_array($tblName)) ? $tblName : [$tblName];
 
-        if(is_array($tblName)){
-            foreach ($tblName as $key => $value) {
-                $tblNames[] = $value;
+        foreach ($tblNames as $table) {
+            if(!$this->is_table($table)){ return false; }
+            if(!$this->query('DROP TABLE '.$table.';')){
+                return false;
             }
-        } else {
-            $tblNames[] = $tblName;
-        }
-
-        try {
-            $this->beginTransaction();
-            foreach ($tblNames as $table) {
-                $this->query('DROP TABLE '.$table.';');
-            }
-            $this->commit();
-        } catch (Exception $e) {   
-            $this->rollBack();      
-            return false;
         }
         return true;
     }
@@ -630,19 +589,11 @@ class Mind extends PDO
      * */
     public function dbClear($dbName){
 
-        $dbNames = array();
-
-        if(is_array($dbName)){
-            foreach ($dbName as $db) {
-                $dbNames[] = $db;
-            }
-        } else {
-            $dbNames[] = $dbName;
-        }
+        $dbNames = (is_array($dbName)) ? $dbName : [$dbName];
 
         foreach ( $dbNames as $dbName ) {
 
-            $this->dbConnect($dbName);
+            $this->selectDB($dbName);
             foreach ($this->tableList($dbName) as $tblName){
                 if(!$this->tableClear($tblName)){
                     return false;
@@ -659,18 +610,9 @@ class Mind extends PDO
      * @return bool
      */
     public function tableClear($tblName){
-
-        $status = false;
-        $tblNames = array();
-
-        if(is_array($tblName)){
-            foreach ($tblName as $value) {
-                $tblNames[] = $value;
-            }
-        } else {
-            $tblNames[] = $tblName;
-        }
-
+        
+        $tblNames = (is_array($tblName)) ? $tblName : [$tblName];
+       
         foreach ($tblNames as $tblName) {
 
             $sql = '';
@@ -685,13 +627,13 @@ class Mind extends PDO
                     $sql = 'DELETE FROM `'.$tblName.'`';
                 break;
             }
-            
-            if($this->query($sql)){
-                $status = true;
-            } 
 
+            if(!$this->query($sql)){
+                return false;
+            }
         }
-        return $status;
+            
+        return true;
     }
 
     /**
@@ -707,15 +649,7 @@ class Mind extends PDO
             return false;
         }
 
-        $columns = array();
-
-        if(is_array($column)){
-            foreach ($column as $col) {
-                $columns[] = $col;
-            }
-        } else {
-            $columns[] = $column;
-        }
+        $columns = (is_array($column)) ? $column : [$column];
 
         $columns = array_intersect($columns, $this->columnList($tblName));
 
@@ -1721,6 +1655,7 @@ class Mind extends PDO
              }
         }
         $end = $options['limit'];
+        unset($options['limit']);
 
         /* -------------------------------------------------------------------------- */
         /*                                 NAVIGATION                                 */
@@ -1775,6 +1710,7 @@ class Mind extends PDO
         if(!is_array($options['search'])){
             $options['search'] = array();
         }
+
 
         /* -------------------------------------------------------------------------- */
         /*            Finding the total number of pages and starting points           */
