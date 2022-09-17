@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.3
+ * @version    Release: 5.3.4
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -3292,6 +3292,36 @@ class Mind extends PDO
             }
         }
 
+
+        if(isset($conf['firewall']['lifetime'])){
+
+            
+            // if only two are specified
+            if(isset($conf['firewall']['lifetime']['start']) AND isset($conf['firewall']['lifetime']['end'])){
+                if((!$this->lifetime($conf['firewall']['lifetime']['end'])) OR 
+                (!$this->lifetime($conf['firewall']['lifetime']['start'], $conf['firewall']['lifetime']['end']))){
+                        $message = (isset($conf['firewall']['lifetime']['message'])) ? $conf['firewall']['lifetime']['message'] : 'The access right granted to you has expired.';
+                        $this->abort('401', $message);
+                    }
+                }
+                
+                // only if the start date is specified
+                if(isset($conf['firewall']['lifetime']['start']) AND !isset($conf['firewall']['lifetime']['end'])){
+                    if(!$this->lifetime($conf['firewall']['lifetime']['start'], $this->timestamp)){
+                        $message = (isset($conf['firewall']['lifetime']['message'])) ? $conf['firewall']['lifetime']['message'] : 'You must wait for the specified time to use your access right.';
+                    $this->abort('401', $message);
+                }
+            }
+
+            // only if the end date is specified
+            if(!isset($conf['firewall']['lifetime']['start']) AND isset($conf['firewall']['lifetime']['end'])){
+                if(!$this->lifetime($conf['firewall']['lifetime']['end'])){
+                    $message = (isset($conf['firewall']['lifetime']['message'])) ? $conf['firewall']['lifetime']['message'] : 'The deadline for your access has expired.';
+                    $this->abort('401', $message);
+                }
+            }
+        }
+
     }
 
     /**
@@ -4613,6 +4643,20 @@ class Mind extends PDO
                 curl_setopt($ch, CURLOPT_REFERER, $options['referer']);
             }
 
+            if(!empty($options['proxy'])){
+                if(!empty($options['proxy']['url'])){
+                    curl_setopt($ch, CURLOPT_PROXY, $options['proxy']['url']);
+                }
+
+                if(!empty($options['proxy']['user'])){
+                    curl_setopt($ch, CURLOPT_PROXYUSERPWD, $options['proxy']['user']);
+                }
+
+                if(!empty($options['proxy']['protocol'])){
+                    curl_setopt($ch, CURLOPT_PROXYTYPE, $options['proxy']['protocol']); 
+                }
+            }
+
             if(!isset($options['header']['User-Agent'])){
                 curl_setopt($ch, CURLOPT_USERAGENT, $_SERVER['HTTP_USER_AGENT']);
             } 
@@ -4849,7 +4893,7 @@ class Mind extends PDO
             $end_date = date_create($end_date);
         } else {
             $end_date = date_create($start_date);
-            $start_date = date_create(date('Y-m-d'));
+            $start_date = date_create($this->timestamp);
         }
         return ($start_date<$end_date);
     }
