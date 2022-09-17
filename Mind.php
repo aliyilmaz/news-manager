@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.2
+ * @version    Release: 5.3.3
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -71,7 +71,13 @@ class Mind extends PDO
         $this->timestamp = date("Y-m-d H:i:s");
 
         /* Database connection */
-        $this->dbConnect($conf);
+        $dbStatus = true;
+        if(isset($conf['db'])){
+            $dbStatus = (($conf['db'] == '') OR (is_array($conf['db']) AND empty($conf['db']))) ? false : true;
+        }
+        if($dbStatus){
+            $this->dbConnect($conf);
+        }
     
         /* Interpreting Get, Post, and Files requests */
         $this->request();
