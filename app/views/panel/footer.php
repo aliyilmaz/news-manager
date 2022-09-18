@@ -1,3 +1,3 @@
 <div class="mt-2 text-center">
-The license is in preparation.
+This project is distributed under the GPL3 license.
 </div>
