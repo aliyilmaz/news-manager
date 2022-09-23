@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.4
+ * @version    Release: 5.3.5
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -3162,23 +3162,22 @@ class Mind extends PDO
                     if($this->post[$name] == $_SESSION['csrf']['token']){
                         unset($this->post[$name]);
                     } else {
-                        $this->abort('401', 'A valid token could not be found.<br>
-                        <small style="font-size:12px;">
-                            The paths of the troubled entities may have caused the token to change.
-                        </small>');
+                        $this->abort('401', 'A valid token could not be found.');
                     }
                 } else {
                     $this->abort('400', 'Token not found.');
                 }
+                
             } 
 
-            if($_SERVER['REQUEST_METHOD'] === 'GET'){
+            if(!isset($_SESSION['csrf']) OR $_SERVER['REQUEST_METHOD'] === 'POST'){
                 $_SESSION['csrf'] = array(
                     'name'  =>  $name,
                     'token' =>  $this->generateToken($limit)                    
                 );
                 $_SESSION['csrf']['input'] = "<input type=\"hidden\" name=\"".$_SESSION['csrf']['name']."\" value=\"".$_SESSION['csrf']['token']."\">";
             }
+
 
         } else {
             if(isset($_SESSION['csrf'])){
