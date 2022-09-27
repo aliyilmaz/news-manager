@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.5
+ * @version    Release: 5.3.6
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -3569,6 +3569,7 @@ class Mind extends PDO
     
         $translations['a'] = (isset($translations['a'])) ? $translations['a'] : 'ago';
         $translations['p'] = (isset($translations['p'])) ? $translations['p'] : 's';
+        $translations['l'] = (isset($translations['l'])) ? $translations['l'] : 'later';
         $translations['j'] = (isset($translations['j'])) ? $translations['j'] : 'just now';
         $translations['f'] = (isset($translations['f'])) ? $translations['f'] : false;
 
@@ -3595,7 +3596,8 @@ class Mind extends PDO
             $string = array_slice($string, 0, 1);
         } 
 
-        return (!empty($string)) ? implode(', ', $string) . ' '.$translations['a'] : '-';
+        $lastParam = ($now<$ago) ? $translations['l'] : $translations['a'];
+        return (!empty($string)) ? implode(', ', $string) . ' '.$lastParam : '-';
     }
 
     /**
