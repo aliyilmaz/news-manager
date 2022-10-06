@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.6
+ * @version    Release: 5.3.7
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -4546,7 +4546,7 @@ class Mind extends PDO
 
             $destination = $path;
 
-            $other_path = $this->permalink($this->info($nLink, 'basename'));
+            $other_path = $this->permalink($this->info($nLink, 'filename')).'.'.$this->info($nLink, 'extension');
 
             if(!is_dir($destination)){
                 mkdir($destination, 0777, true);
@@ -5196,9 +5196,9 @@ class Mind extends PDO
             $data       = $this->get_contents('', '', $file_path);
             $data       = ($data != $file_path) ? $data : file_get_contents($file_path);
         } else {
-            $data       = $file_path;
+            $data       = file_get_contents($file_path);
         }
-        $mime_type  = ($this->is_json($data)) ? 'application/json' : mime_content_type($file_path);
+        $mime_type  = ($this->is_json($data)) ? 'application/json' : $this->mime_content_type($file_path);
         $new_filename   = (is_null($filename)) ? basename($file_path) : $filename;
         
         header('Access-Control-Allow-Origin: *');
@@ -5214,4 +5214,17 @@ class Mind extends PDO
         echo $data;
     }
 
+    /**
+     * mime_content_type
+     *
+     * @param string $url
+     * @return string
+     */
+    public function mime_content_type($url){
+
+        $finfo = new finfo(FILEINFO_MIME_TYPE);
+        $type = $finfo->buffer(file_get_contents($url));
+        return $type;
+    
+    }
 }
