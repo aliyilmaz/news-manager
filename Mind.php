@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.7
+ * @version    Release: 5.3.8
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -1276,6 +1276,41 @@ class Mind extends PDO
         }
 
         return $output;
+    }
+
+    /**
+     * matlda function
+     *
+     * @param string $tableName
+     * @param string|array $keyword
+     * @param string|array|null $columns
+     * @param integer|null $limit
+     * @param string|null $export
+     * @return array
+     */
+    public function matilda($tableName, $keyword, $columns=[], $limit=0){
+
+        $options = [
+            'search'=>[
+                'scope'=>'like',
+            ]
+        ];
+
+        if(!empty($keyword)){
+            $options['search']['keyword'] = $keyword;
+        }
+
+        if(!empty($columns)){
+            $options['column'] = $columns;
+        }
+
+        if(!empty($limit)){
+            $options['limit'] = [
+                'end'=>$limit
+            ];
+        }
+
+        return $this->getData($tableName, $options);
     }
 
     /**
@@ -5196,7 +5231,13 @@ class Mind extends PDO
             $data       = $this->get_contents('', '', $file_path);
             $data       = ($data != $file_path) ? $data : file_get_contents($file_path);
         } else {
-            $data       = file_get_contents($file_path);
+            $data       = $file_path;
+
+            if(is_string($file_path)){
+                if(file_exists($file_path)){
+                    $data       = file_get_contents($file_path);
+                }
+            }
         }
         $mime_type  = ($this->is_json($data)) ? 'application/json' : $this->mime_content_type($file_path);
         $new_filename   = (is_null($filename)) ? basename($file_path) : $filename;
