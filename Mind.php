@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.8
+ * @version    Release: 5.3.9
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -5232,12 +5232,6 @@ class Mind extends PDO
             $data       = ($data != $file_path) ? $data : file_get_contents($file_path);
         } else {
             $data       = $file_path;
-
-            if(is_string($file_path)){
-                if(file_exists($file_path)){
-                    $data       = file_get_contents($file_path);
-                }
-            }
         }
         $mime_type  = ($this->is_json($data)) ? 'application/json' : $this->mime_content_type($file_path);
         $new_filename   = (is_null($filename)) ? basename($file_path) : $filename;
@@ -5249,7 +5243,7 @@ class Mind extends PDO
             header('Content-Disposition: attachment; filename="'.$new_filename.'"');
         }
 
-        if(file_exists($file_path) AND is_null($filename) AND $download === false){
+        if(!empty($file_path) AND is_null($filename) AND $download === false){
             $data = readfile($file_path);
         }
         echo $data;
