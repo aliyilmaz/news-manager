@@ -3,7 +3,7 @@
 /**
  *
  * @package    Mind
- * @version    Release: 5.3.9
+ * @version    Release: 5.4.0
  * @license    GPL3
  * @author     Ali YILMAZ <aliyilmaz.work@gmail.com>
  * @category   Php Framework, Design pattern builder for PHP.
@@ -1687,7 +1687,7 @@ class Mind extends PDO
         /* -------------------------------------------------------------------------- */
         /*                                    LIMIT                                   */
         /* -------------------------------------------------------------------------- */
-        $limit = 5;
+        $limit = 25;
         if(empty($options['limit'])){
             $options['limit'] = $limit;
         } else {
@@ -1765,9 +1765,9 @@ class Mind extends PDO
         /* -------------------------------------------------------------------------- */
         /*                          Generate navigation code                          */
         /* -------------------------------------------------------------------------- */
-        $paged = $page;
-        $current_page = $page;
-        $max_num_pages = $totalPage;
+        $paged          = $page;
+        $current_page   = $page;
+        $max_num_pages  = $totalPage;
         
         $navigation = '<div class="pagination">';
         if($paged != 1){
@@ -1798,14 +1798,14 @@ class Mind extends PDO
 
 
         $result = array(
-            'data'=>array_slice($data, $start, $end), 
-            'route_path'=>$route_path,
-            'prefix'=>$prefix,
-            'limit'=>$end,
-            'totalPage'=>$totalPage,
-            'totalRecord'=>$totalRow,
-            'navigation'=>$navigation,
-            'page'=>$page
+            'data'          =>  array_slice($data, $start, $end), 
+            'route_path'    =>  $route_path,
+            'prefix'        =>  $prefix,
+            'limit'         =>  $end,
+            'totalPage'     =>  $totalPage,
+            'totalRecord'   =>  $totalRow,
+            'navigation'    =>  $navigation,
+            'page'          =>  $page
         );
 
         switch ($format) {
@@ -5261,5 +5261,94 @@ class Mind extends PDO
         $type = $finfo->buffer(file_get_contents($url));
         return $type;
     
+    }
+
+    /**
+     * 
+     */
+    public function popupBox($str, $options=[]){
+        $options['tracking'] = (isset($options['tracking'])) ? $options['tracking'] : '';
+        $options['theme'] = (isset($options['theme'])) ? $options['theme'] : '';
+        $options['theme'] = (in_array($options['theme'], ['white', 'red'])) ? $options['theme'] : 'red';
+        if($options['theme'] == 'white'){
+            $theme = [
+                'div_popupBox'              => 'background-color:#fbfbfb;color:#3c3c3c;',
+                'div_popupBox_a'            => 'color:#cf5560;',
+                'div_popupBox_a_hover'      => 'color:#e12536;',
+                'button_acceptpopup'        => 'background-color:#cb1a3b;color:#fff;',
+                'button_acceptpopup_hover'  => 'background-color:#d32445;color:#fff;',
+                'button_declinepopup'       => 'background-color:#e0dbdb;color:#000;',
+                'button_declinepopup_hover' => 'background-color:#edebeb;color:#000;',
+                'div_popupBox_counter'      => 'background-color: #424242cf; color:white;'
+            ];
+
+        }
+
+        if($options['theme'] == 'red'){
+            $theme = [
+                'div_popupBox'              => 'background-color:#bf0326;color:#f8f8ff;',
+                'div_popupBox_a'            => 'color:#df4c69;',
+                'div_popupBox_a_hover'      => 'color:#e1687e;',
+                'button_acceptpopup'        => 'background-color:#cb1a3b;color:#fff;',
+                'button_acceptpopup_hover'  => 'background-color:#d32445;color:#fff;',
+                'button_declinepopup'       => 'background-color:#ddd;color:#000;',
+                'button_declinepopup_hover' => 'background-color:#fff2f2;color:#000',
+                'div_popupBox_counter'      => 'background-color: #424242c2; color:white;'
+            ];
+        }
+
+        $acceptClick = (!empty($options['button']['true']['link'])) ? ' onclick="window.location.href=\''.$options['button']['true']['link'].'\';"' : '';
+        $acceptText = (isset($options['button']['true']['text'])) ? $options['button']['true']['text'] : 'Yes';
+
+        $declineClick = (!empty($options['button']['true']['link'])) ? ' onclick="window.location.href=\''.$options['button']['false']['link'].'\';"' : '';
+        $declineText = (isset($options['button']['false']['text'])) ? $options['button']['false']['text'] : 'No, Thanks';
+
+        $timeoutExit = (isset($options['timeout'])) ? $options['timeout'] : 0;
+        $redirect = (isset($options['redirect'])) ? $options['redirect'] : '';
+
+    ?>
+    
+        <style>div.popupBox{display:none;position:fixed;z-index:9999999;height:auto;bottom:15px;border-radius:2px;margin:10px;box-shadow:0 0 15px 0 rgba(98,98,98,.75);padding:1rem;transition:1s;width:-webkit-fill-available;<?=$theme['div_popupBox'];?>}div.popupBox p{font-size:14px;font-weight:600;letter-spacing:.4px;line-height:22.9px;font-family:Arial,sans-serif}div.popupBox a{<?=$theme['div_popupBox_a'];?>font-weight:700;text-decoration:none}div.popupBox a:hover{ <?=$theme['div_popupBox_a_hover'];?>text-decoration: underline; transition:color .2s}button#acceptpopup,button#declinepopup{border-width:0;font-size:14px;padding:7px 20px;cursor:pointer; float:left;}button#acceptpopup:hover,button#declinepopup:hover{transition:background-color .5s}button#acceptpopup{<?=$theme['button_acceptpopup'];?>}button#acceptpopup:hover{<?=$theme['button_acceptpopup_hover'];?>}button#declinepopup{<?=$theme['button_declinepopup'];?>}button#declinepopup:hover{<?=$theme['button_declinepopup_hover'];?>} div.popupBox_counter{float: left;position: absolute;height: 40px;padding: 6px;margin: -1px;right: 8px; bottom:8px; width: 40px;border-radius: 40px;text-align: center;<?=$theme['div_popupBox_counter'];?>;font-size: 26px;line-height: 40px;}</style>
+
+        <div class="popupBox">
+            
+            <p><?=$str;?></p>
+            <?php if(!empty($acceptText)){ ?>
+                <button type="button" id="acceptpopup"<?=$acceptClick;?>><?=$acceptText;?></button>
+            <?php } ?>
+            <?php if(!empty($declineText)){ ?>
+                    <button type="button" id="declinepopup"<?=$declineClick;?>><?=$declineText;?></button>
+            <?php } ?>
+            
+            <?php if($timeoutExit>0){ ?>
+                <div class="popupBox_counter"></div>
+            <?php } ?>
+        
+	    </div>
+        <script>
+        
+            let e = document.getElementsByClassName("popupBox"), t = document.getElementById("acceptpopup"), o = document.getElementById("declinepopup");<?php if($timeoutExit>0){ ?> let wait = 1000, delay = <?=$timeoutExit;?>/wait, c = document.getElementsByClassName("popupBox_counter"); let timeout = setInterval(function () { c[0].innerHTML = delay; if(delay<1){ e[0].style.display="none"; clearInterval(timeout); <?php if($redirect != ''){ ?> window.location.replace('<?=$redirect;?>'); <?php } ?> } delay--; }, wait); <?php } ?> window.addEventListener("load", function() {localStorage.getItem("popupBox"); setTimeout(function() { void 0 == localStorage.getItem("popupBox") && (e[0].style.display = "block")}, 500); if(e!=null && t != null && o!=null){ t.addEventListener("click", function(t) { t.preventDefault(), localStorage.setItem("popupBox", true), e[0].style.display = "none"; window.location.replace('<?=$this->page_current;?>');});o.addEventListener("click", function(t) {t.preventDefault(), localStorage.setItem("popupBox", false), e[0].style.display = "none"; });}});
+
+            <?php 
+
+            if(!empty($options['tracking'])){
+
+                $left = "\n\t<!--Employee monitoring section if the visitor allows (Supports GDPR and KVKK)-->\n";
+                $right = "\n\t<!--Employee monitoring section if the visitor allows (Supports GDPR and KVKK)-->\n";
+                if(stristr($options['tracking'], '<script>')){
+                    $options['tracking'] = str_replace('<script>', '<script>if(localStorage.getItem("popupBox") == \'true\'){', $options['tracking']);
+                }
+                if(stristr($options['tracking'], '<script type="text/javascript">')){
+                    $options['tracking'] = str_replace('<script type="text/javascript">', '<script type="text/javascript">if(localStorage.getItem("popupBox") == \'true\'){', $options['tracking']);
+                }
+                $options['tracking'] = str_replace('</script>', '}</script>', $options['tracking']);
+                $options['tracking'] = $left."\t\t".$options['tracking'].$right;
+            }
+        ?>
+        </script>
+        
+        <?=$options['tracking'];?>
+        
+        <?php
     }
 }
